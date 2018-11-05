@@ -1,0 +1,15 @@
+version: '3'
+services:
+  master:
+    image: mongo:4.0.3
+    volumes:
+      - /data/mongodb/replset/rs1:/data/db
+    command: mongod --dbpath /data/db --replSet dbset --oplogSize 128
+  slave:
+    image: mongo:4.0.3
+    volumes:
+      - /data/mongodb/replset/rs2:/data/db
+    command: mongod --dbpath /data/db --replSet dbset --oplogSize 128
+  arbiter:
+    image: mongo:4.0.3
+    command: mongod --dbpath /data/db --replSet dbset --smallfiles --oplogSize 128
